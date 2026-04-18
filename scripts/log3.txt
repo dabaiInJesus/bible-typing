@@ -1,0 +1,7 @@
+convert-bible-en3.cjs start
+sourceZhPath D:\code\bible-typing\public\bible-data\bible-zh.json
+sourceEnPath D:\code\bible-typing\public\bible-data\bible-en.json
+read zh raw {   "version": "和合本（简体）",   "version_en": "Chinese Union Ver
+read en raw ﻿[{"abbrev": "gn", "chapters": [["In the beginning God creat
+parsed zhData books 66
+parse en error Unexpected token '﻿', "﻿[{"abbrev"... is not valid JSON
