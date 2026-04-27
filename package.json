@@ -9,7 +9,11 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "electron:dev": "vite",
-    "electron:build": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder"
+    "electron:build": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder",
+    "electron:build:win": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder --win",
+    "electron:build:mac": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder --mac",
+    "electron:build:linux": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder --linux",
+    "electron:build:all": "vue-tsc -b && vite build && cross-env ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/ electron-builder -mwl"
   },
   "dependencies": {
     "vue": "^3.5.32"
@@ -46,14 +50,91 @@
       {
         "from": "src/assets/bible-data",
         "to": "bible-data",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "win": {
-      "target": ["nsis"]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.education",
+      "icon": "public/icons.icns"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "rpm",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Education",
+      "icon": "public/icons.png"
     },
     "nsis": {
-      "artifactName": "${productName}-${version}.${ext}"
+      "artifactName": "${productName}-${version}-Windows.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "dmg": {
+      "artifactName": "${productName}-${version}-MacOS-${arch}.${ext}"
+    },
+    "appImage": {
+      "artifactName": "${productName}-${version}-Linux.${ext}"
+    },
+    "deb": {
+      "artifactName": "${productName}-${version}-Linux.deb"
+    },
+    "rpm": {
+      "artifactName": "${productName}-${version}-Linux.rpm"
     }
-  }
+  },
+  "author": "Bible Typing Team <team@bible-typing.app>",
+  "description": "A typing practice tool to help memorize Bible verses"
 }
